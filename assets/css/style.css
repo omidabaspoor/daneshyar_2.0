@@ -150,19 +150,27 @@ img, svg { max-width: 100%; vertical-align: middle; }
   gap: 10px;
 }
 .brand {
-  display: flex; align-items: center; gap: 10px;
-  font-weight: 800; font-size: 17px; color: var(--text);
+  display: flex; align-items: center; gap: 12px;
+  font-weight: 800; font-size: 18px; color: var(--text);
   text-decoration: none;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.brand:hover { color: var(--text); }
+.brand:hover {
+  color: var(--text);
+  transform: scale(1.02);
+}
 .brand-logo {
-  width: 40px; height: 40px;
+  width: 42px; height: 42px;
   border-radius: 50%;
   overflow: hidden;
   flex-shrink: 0;
-  box-shadow: 0 6px 20px rgba(235,124,42,.4);
+  box-shadow: 0 8px 24px rgba(235,124,42,.45);
   display: inline-block;
   background: linear-gradient(135deg, var(--orange), var(--orange-2));
+  transition: box-shadow 0.3s ease;
+}
+.brand:hover .brand-logo {
+  box-shadow: 0 12px 30px rgba(235,124,42,.55);
 }
 .brand-logo img {
   width: 100%; height: 100%;
@@ -650,6 +658,17 @@ img, svg { max-width: 100%; vertical-align: middle; }
   text-align: right;
 }
 
+@media (max-width: 768px) {
+  .hcm-body {
+    padding: 14px 12px;
+    gap: 10px;
+  }
+  .hcm-bub {
+    max-width: 92%;
+    font-size: 13px;
+  }
+}
+
 .hcm-msg { display: flex; gap: 8px; animation: fadeUp .5s var(--ease) backwards; }
 .hcm-msg.hcm-user { justify-content: flex-start; animation-delay: .1s; }
 .hcm-msg.hcm-ai { animation-delay: .5s; }
@@ -787,6 +806,12 @@ img, svg { max-width: 100%; vertical-align: middle; }
    FEATURES
    ============================================================ */
 .features-wrap { padding: 36px 0 20px; }
+
+@media (max-width: 768px) {
+  .features-wrap {
+    padding: 30px 0 16px;
+  }
+}
 
 .features {
   display: grid;
@@ -1151,8 +1176,38 @@ body.dy-menu-open { overflow: hidden !important; position: static !important; wi
   text-decoration: none;
 }
 .dy-desktop-menu a {
-  padding: 8px 12px;
-  font-size: 13.5px;
+  padding: 10px 20px;
+  font-size: 14.2px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+  border-radius: 12px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.dy-desktop-menu a:hover {
+  background: rgba(235,124,42,0.12);
+  color: var(--orange);
+  transform: translateY(-1px);
+}
+
+.dy-desktop-menu a.active {
+  background: var(--orange-soft);
+  color: var(--orange);
+  font-weight: 700;
+}
+
+.dy-desktop-menu a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 3px;
+  background: linear-gradient(to right, var(--orange), var(--orange-2));
+  border-radius: 3px;
 }
 .dy-desktop-menu a .ico { width: 16px; height: 16px; }
 .dy-desktop-menu a:hover,
@@ -1166,19 +1221,33 @@ body.dy-menu-open { overflow: hidden !important; position: static !important; wi
   color: #1a0e05 !important;
   font-weight: 800 !important;
   box-shadow: 0 4px 14px rgba(235,124,42,.35);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.dy-nav-primary:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 8px 22px rgba(235,124,42,.5) !important;
 }
 .dy-burger,
 .dy-menu-close {
-  width: 42px;
-  height: 42px;
+  width: 46px;
+  height: 46px;
   border: 1px solid var(--border);
-  border-radius: 13px;
+  border-radius: 14px;
   background: rgba(255,255,255,.07);
   color: var(--text);
   display: none;
   place-items: center;
   cursor: pointer;
   font-family: inherit;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dy-burger:hover,
+.dy-menu-close:hover {
+  background: var(--orange-soft);
+  border-color: var(--border-orange);
+  transform: scale(1.05);
 }
 .dy-burger .ico,
 .dy-menu-close .ico { width: 22px; height: 22px; }
@@ -1198,6 +1267,7 @@ body.dy-menu-open { overflow: hidden !important; position: static !important; wi
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 .dy-mobile-menu {
   position: fixed;
@@ -1213,8 +1283,8 @@ body.dy-menu-open { overflow: hidden !important; position: static !important; wi
   box-shadow: -22px 0 60px rgba(0,0,0,.65);
   transform: translate3d(110%,0,0);
   visibility: hidden;
-  transition: transform .28s var(--ease), visibility .28s var(--ease);
-  padding: 16px;
+  transition: transform 0.35s cubic-bezier(0.32, 0.72, 0, 1), visibility 0.35s ease;
+  padding: 18px 16px;
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -1236,11 +1306,12 @@ body.dy-menu-open { overflow: hidden !important; position: static !important; wi
 .dy-mobile-user {
   display: flex;
   align-items: center;
-  gap: 11px;
-  padding: 13px;
-  border-radius: 16px;
+  gap: 14px;
+  padding: 16px;
+  border-radius: 18px;
   background: linear-gradient(135deg, rgba(235,124,42,.16), rgba(255,255,255,.04));
   border: 1px solid rgba(235,124,42,.22);
+  transition: all 0.2s ease;
 }
 .dy-mobile-avatar {
   width: 42px;
@@ -1261,10 +1332,32 @@ body.dy-menu-open { overflow: hidden !important; position: static !important; wi
   gap: 7px;
 }
 .dy-mobile-links a {
-  padding: 14px 15px;
-  font-size: 14.5px;
+  padding: 16px 20px;
+  font-size: 15.2px;
   background: rgba(255,255,255,.035);
   border: 1px solid transparent;
+  white-space: nowrap;
+  border-radius: 14px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-bottom: 4px;
+}
+
+.dy-mobile-links a:hover,
+.dy-mobile-links a.active {
+  background: rgba(235,124,42,0.12);
+  border-color: rgba(235,124,42,0.3);
+  color: var(--orange);
+  transform: translateX(-4px);
+}
+
+.dy-mobile-links a .ico {
+  width: 22px;
+  height: 22px;
+  transition: transform 0.2s ease;
+}
+
+.dy-mobile-links a:hover .ico {
+  transform: scale(1.1);
 }
 .dy-mobile-links a .ico { width: 20px; height: 20px; color: var(--orange); }
 .dy-mobile-links a:hover,
@@ -1359,6 +1452,652 @@ body.has-chat .app-main {
 .hstat-v { white-space: nowrap; }
 @media (max-width: 480px) { .hstat-v { font-size: 16px; } }
 
+/* ============================================================
+   MOBILE-FIRST RESPONSIVE - لندینگ و همه صفحات
+   ============================================================ */
+
+@media (max-width: 768px) {
+  /* هیرو */
+  .hero {
+    padding: 10px 0 30px;
+    gap: 30px;
+  }
+  .hero h1 {
+    font-size: 28px;
+    line-height: 1.3;
+  }
+  .hero-desc {
+    font-size: 14.5px;
+    line-height: 1.75;
+  }
+  .hero-stats {
+    grid-template-columns: repeat(3, 1fr);
+    padding: 12px;
+    gap: 6px;
+  }
+  .hstat-v { font-size: 18px; }
+  .hstat-l { font-size: 11px; }
+  .hero-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* بخش‌های جدید لندینگ */
+  .about-section, .services-section {
+    padding: 40px 0;
+  }
+  .about-grid, .services-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .about-card, .service-item {
+    padding: 20px 16px;
+  }
+  .about-icon, .service-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 14px;
+  }
+  .about-icon .ico, .service-icon .ico {
+    width: 24px;
+    height: 24px;
+  }
+  .about-card h3, .service-item h4 {
+    font-size: 15.5px;
+  }
+  .about-card p, .service-item p {
+    font-size: 13.5px;
+    line-height: 1.7;
+  }
+
+  /* ایجنت‌ها */
+  .agent-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .agent-card {
+    padding: 16px 14px;
+  }
+  .agent-card-title {
+    font-size: 14.5px;
+  }
+  .agent-card-desc {
+    font-size: 12.5px;
+  }
+
+  /* سه قدم */
+  .steps {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .step {
+    padding: 20px 16px;
+  }
+  .step-num {
+    width: 26px;
+    height: 26px;
+    font-size: 13px;
+  }
+  .step-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  /* سوالات پرتکرار */
+  .faq-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .faq-item {
+    padding: 18px 16px;
+  }
+  .faq-item h3 {
+    font-size: 14.5px;
+  }
+  .faq-item p {
+    font-size: 13.5px;
+  }
+
+  /* بنر و CTA */
+  .exam-banner {
+    padding: 24px 18px;
+  }
+  .exam-banner h2 {
+    font-size: 19px;
+  }
+  .final-cta-card {
+    padding: 26px 18px;
+  }
+  .final-cta-card h2 {
+    font-size: 19px;
+  }
+}
+
+/* ========================================================
+   BEAUTIFUL AGENT CARDS - ۲ کارت در ردیف + ظاهر حرفه‌ای
+   ======================================================== */
+
+.agent-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  gap: 14px;
+}
+
+.agent-card {
+  background: linear-gradient(145deg, #16161f, #0f0f17);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 16px 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 22px rgba(0,0,0,0.32);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 172px;
+}
+
+.agent-card:hover {
+  border-color: rgba(235,124,42,0.45);
+  transform: translateY(-5px);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.42);
+}
+
+.agent-card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-bottom: 11px;
+}
+
+.agent-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(235,124,42,0.14);
+  border: 1px solid rgba(235,124,42,0.32);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--orange);
+}
+
+.agent-icon .ico {
+  width: 21px;
+  height: 21px;
+}
+
+.agent-card-title-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.agent-card-title {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 3px;
+  line-height: 1.25;
+}
+
+.agent-card-desc {
+  font-size: 12px;
+  color: #9ea0b3;
+  line-height: 1.5;
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  min-height: 48px;
+}
+
+.agent-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 13px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+.agent-card-tag {
+  font-size: 10.5px;
+  color: #6b6d80;
+  background: rgba(255,255,255,0.05);
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.agent-card-cta {
+  color: var(--orange);
+  font-size: 12.5px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ========================================================
+   MOBILE - ۲ کارت در هر ردیف + ظاهر خوشگل
+   ======================================================== */
+
+@media (max-width: 768px) {
+  .agent-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 11px;
+  }
+  
+  .agent-card {
+    padding: 14px 12px;
+    border-radius: 16px;
+  }
+  
+  .agent-card-head {
+    gap: 10px;
+    margin-bottom: 9px;
+  }
+  
+  .agent-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .agent-icon .ico {
+    width: 19px;
+    height: 19px;
+  }
+  
+  .agent-card-title {
+    font-size: 13.8px;
+  }
+  
+  .agent-card-desc {
+    font-size: 11.5px;
+  }
+  
+  .agent-card-foot {
+    margin-top: 11px;
+    padding-top: 9px;
+  }
+  
+  .agent-card-tag {
+    font-size: 10px;
+    padding: 2px 7px;
+  }
+  
+  .agent-card-cta {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .agent-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 9px;
+  }
+  
+  .agent-card {
+    padding: 12px 10px;
+    border-radius: 15px;
+  }
+  
+  .agent-card-head {
+    gap: 9px;
+    margin-bottom: 8px;
+  }
+  
+  .agent-icon {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .agent-icon .ico {
+    width: 17px;
+    height: 17px;
+  }
+  
+  .agent-card-title {
+    font-size: 13.2px;
+  }
+  
+  .agent-card-desc {
+    font-size: 11px;
+  }
+  
+  .agent-card-foot {
+    margin-top: 9px;
+    padding-top: 8px;
+  }
+  
+  .agent-card-tag {
+    font-size: 9.5px;
+    padding: 2px 6px;
+  }
+  
+  .agent-card-cta {
+    font-size: 11.5px;
+  }
+}
+
+/* ========================================================
+   MOBILE OPTIMIZATION - اجبار ۲ ستونه + اندازه کوچکتر
+   ======================================================== */
+
+/* ========================================================
+   ABOUT & SERVICES CARDS - ارتفاع یکسان + ظاهر حرفه‌ای
+   ======================================================== */
+
+.about-grid,
+.services-grid {
+  align-items: stretch;
+}
+
+.about-card,
+.service-item {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.about-card p,
+.service-item p {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* موبایل - ۲ کارت در ردیف + ارتفاع یکسان */
+@media (max-width: 768px) {
+  .about-grid,
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    align-items: stretch;
+  }
+  
+  .about-card,
+  .service-item {
+    padding: 16px 13px;
+    min-height: 185px;
+  }
+  
+  .about-icon,
+  .service-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+  }
+  
+  .about-card h3,
+  .service-item h4 {
+    font-size: 14.2px;
+    margin-bottom: 8px;
+  }
+  
+  .about-card p,
+  .service-item p {
+    font-size: 12.8px;
+    line-height: 1.65;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-grid,
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 9px !important;
+  }
+  
+  .about-card,
+  .service-item {
+    padding: 13px 10px;
+    min-height: 165px;
+  }
+  
+  .about-icon,
+  .service-icon {
+    width: 34px;
+    height: 34px;
+    margin-bottom: 7px;
+  }
+  
+  .about-card h3,
+  .service-item h4 {
+    font-size: 13.2px;
+    margin-bottom: 5px;
+  }
+  
+  .about-card p,
+  .service-item p {
+    font-size: 11.8px;
+    line-height: 1.55;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-grid,
+  .services-grid,
+  .agent-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+  
+  .about-card, .service-item, .agent-card {
+    padding: 14px 11px;
+  }
+  
+  .about-icon, .service-icon {
+    width: 38px;
+    height: 38px;
+    margin-bottom: 8px;
+  }
+  
+  .about-card h3, .service-item h4 {
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  
+  .about-card p, .service-item p {
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-grid,
+  .services-grid,
+  .agent-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+  }
+  
+  .about-card, .service-item, .agent-card {
+    padding: 11px 9px;
+  }
+  
+  .about-icon, .service-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 6px;
+  }
+  
+  .about-icon .ico, .service-icon .ico {
+    width: 15px;
+    height: 15px;
+  }
+  
+  .about-card h3, .service-item h4 {
+    font-size: 13px;
+    margin-bottom: 4px;
+  }
+  
+  .about-card p, .service-item p {
+    font-size: 11.8px;
+    line-height: 1.55;
+  }
+  
+  .hero h1 {
+    font-size: 23px;
+    line-height: 1.25;
+  }
+  
+  .hero-desc {
+    font-size: 13.5px;
+    line-height: 1.65;
+  }
+  
+  .hero-stats {
+    padding: 9px;
+    gap: 4px;
+  }
+  
+  .hstat-v { font-size: 15px; }
+  .hstat-l { font-size: 9.5px; }
+  
+  .hero-actions {
+    gap: 8px;
+  }
+  
+  .hero-actions .btn {
+    padding: 10px 14px;
+    font-size: 13.5px;
+  }
+}
+
+/* ============================================================
+   GLOBAL MOBILE IMPROVEMENTS - همه صفحات
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 12px;
+  }
+
+  .section-title {
+    font-size: 22px;
+  }
+  .section-sub {
+    font-size: 13.5px;
+  }
+
+  .btn {
+    padding: 11px 18px;
+    font-size: 14px;
+  }
+  .btn-hero {
+    padding: 13px 20px;
+    font-size: 14.5px;
+  }
+
+  .glass {
+    border-radius: 16px;
+  }
+
+  .input, .textarea, .select {
+    padding: 12px 14px;
+    font-size: 15px;
+  }
+
+  .form-label {
+    font-size: 13px;
+  }
+
+  /* داشبورد */
+  .dy-dash-hero {
+    padding: 16px;
+  }
+  .dy-dash-greet {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+  .dy-dash-avatar {
+    width: 56px;
+    height: 56px;
+    font-size: 24px;
+  }
+  .dy-dash-info h2 {
+    font-size: 19px;
+  }
+  .dy-dash-meta {
+    justify-content: center;
+  }
+  .dy-dash-quota {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  /* فرم‌های ثبت‌نام و پروفایل */
+  .auth-card {
+    padding: 22px 16px;
+  }
+  .auth-card h1 {
+    font-size: 22px;
+  }
+
+  .reg-step-title {
+    font-size: 14.5px;
+  }
+  .grade-picker {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .major-picker-v2 {
+    grid-template-columns: 1fr;
+  }
+
+  /* جدول‌ها و لیست‌ها */
+  table {
+    font-size: 13px;
+  }
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* موبایل خیلی کوچک */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 10px;
+  }
+  
+  .section-title {
+    font-size: 20px;
+  }
+  
+  .btn {
+    padding: 10px 16px;
+    font-size: 13.5px;
+  }
+  
+  .dy-dash-hero {
+    padding: 14px;
+  }
+  .dy-dash-info h2 {
+    font-size: 17px;
+  }
+  
+  .grade-picker {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .grade-picker span {
+    padding: 11px 4px;
+    font-size: 14px;
+  }
+}
+
 /* اعلان‌های کوچک و وضعیت اشتراک در کل سایت */
 .dy-notice {
   display:flex;
@@ -1412,9 +2151,14 @@ body.has-chat .app-main {
 
 /* Header Refinements */
 .dy-header {
-  box-shadow: 0 4px 30px rgba(0,0,0,.1);
-  border-bottom: 1px solid rgba(235,124,42,.15);
-  backdrop-filter: blur(12px) saturate(160%);
+  box-shadow: 0 8px 32px rgba(0,0,0,.12);
+  border-bottom: 1px solid rgba(235,124,42,.12);
+  backdrop-filter: blur(20px) saturate(180%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dy-header:hover {
+  box-shadow: 0 12px 40px rgba(0,0,0,.18);
 }
 .dy-desktop-menu {
   gap: 8px !important;
