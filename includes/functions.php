@@ -173,6 +173,65 @@ function num_fa($n) {
     return str_replace($en, $fa, (string)$n);
 }
 
+/* ===================== Persian (Jalali) Date Helpers ===================== */
+
+function gregorian_to_jalali($gy, $gm, $gd) {
+    $gy = (int)$gy; $gm = (int)$gm; $gd = (int)$gd;
+
+    $g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+    $jy = ($gy <= 1600) ? 0 : 979;
+    $gy -= ($gy <= 1600) ? 621 : 1600;
+    $gy2 = ($gm > 2) ? ($gy + 1) : $gy;
+    $days = (365 * $gy) + ((int)(($gy2 + 3) / 4)) - ((int)(($gy2 + 99) / 100)) + ((int)(($gy2 + 399) / 400)) - 80 + $gd + $g_d_m[$gm - 1];
+    $jy += 33 * ((int)($days / 12053));
+    $days %= 12053;
+    $jy += 4 * ((int)($days / 1461));
+    $days %= 1461;
+    if ($days > 365) {
+        $jy += (int)(($days - 1) / 365);
+        $days = ($days - 1) % 365;
+    }
+    $jm = ($days < 186) ? 1 + (int)($days / 31) : 7 + (int)(($days - 186) / 30);
+    $jd = 1 + (($days < 186) ? ($days % 31) : (($days - 186) % 30));
+    return [$jy, $jm, $jd];
+}
+
+function format_jalali_date($date_str, $with_time = false) {
+    if (!$date_str) return '—';
+    $ts = is_numeric($date_str) ? (int)$date_str : strtotime($date_str);
+    if (!$ts) return '—';
+
+    $gy = (int)date('Y', $ts);
+    $gm = (int)date('m', $ts);
+    $gd = (int)date('d', $ts);
+    [$jy, $jm, $jd] = gregorian_to_jalali($gy, $gm, $gd);
+
+    $jmonths = ['فروردین','اردیبهشت','خرداد','تیر','مرداد','شهریور','مهر','آبان','آذر','دی','بهمن','اسفند'];
+    $month_name = $jmonths[$jm - 1];
+
+    $date = num_fa($jy) . ' ' . $month_name . ' ' . num_fa($jd);
+
+    if ($with_time) {
+        $time = num_fa(date('H:i', $ts));
+        return $date . ' · ' . $time;
+    }
+    return $date;
+}
+
+function format_jalali_datetime($date_str) {
+    return format_jalali_date($date_str, true);
+}
+
+/* ===================== Compatibility helpers ===================== */
+
+function date_fa_short($date_str) {
+    return format_jalali_date($date_str, false);
+}
+
+function date_fa_full($date_str) {
+    return format_jalali_datetime($date_str);
+}
+
 /* ----------- تبدیل تاریخ شمسی به میلادی ----------- */
 
 function jalali_to_gregorian($jy, $jm, $jd) {

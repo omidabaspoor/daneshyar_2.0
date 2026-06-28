@@ -15,7 +15,7 @@ if (!in_array($accountType, ['student', 'counselor'], true)) {
 
 $old = [
     'first_name' => '', 'last_name' => '', 'mobile' => '',
-    'school'     => '', 'grade' => 10, 'major' => 'math',
+    'grade' => 10, 'major' => 'math',
     'org'        => '', 'students_count' => '',
 ];
 
@@ -30,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $old['mobile']     = preg_replace('/[^0-9]/', '', $old['mobile']);
         $password          = (string)($_POST['password'] ?? '');
         $accept            = isset($_POST['accept']);
-        $old['school']     = trim($_POST['school'] ?? '');
         $old['grade']      = (int)($_POST['grade'] ?? 10);
         $old['major']      = normalize_major($_POST['major'] ?? 'math');
         $old['org']        = trim($_POST['org'] ?? '');
@@ -48,9 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // اعتبارسنجی اختصاصی هر نوع
             if ($accountType === 'student') {
-                if (!is_valid_school_name($old['school'])) {
-                    $error = 'نام مدرسه الزامی است.';
-                } elseif ($old['grade'] < 7 || $old['grade'] > 12) {
+                if ($old['grade'] < 7 || $old['grade'] > 12) {
                     $error = 'پایه تحصیلی نامعتبر است.';
                 } elseif (!array_key_exists($old['major'], major_options())) {
                     $error = 'رشته تحصیلی نامعتبر است.';
@@ -70,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $hash = password_hash($password, PASSWORD_BCRYPT);
                     if ($accountType === 'student') {
                         db()->prepare("INSERT INTO users (first_name,last_name,mobile,password,grade,major,school,role,last_reset_date) VALUES (?,?,?,?,?,?,?, 'user', CURDATE())")
-                            ->execute([$old['first_name'], $old['last_name'], $old['mobile'], $hash, $old['grade'], $old['major'], $old['school']]);
+                            ->execute([$old['first_name'], $old['last_name'], $old['mobile'], $hash, $old['grade'], $old['major'], '']);
                     } else { // counselor
                         // برای مشاوران: grade=12, major=math به‌عنوان مقادیر پیش‌فرض (فیلدهای غیرضروری)
                         db()->prepare("INSERT INTO users (first_name,last_name,mobile,password,grade,major,school,role,last_reset_date) VALUES (?,?,?,?, 12, 'other', ?, 'counselor', CURDATE())")
@@ -185,11 +182,6 @@ include __DIR__ . '/includes/header.php';
                 </label>
               <?php endforeach; ?>
             </div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">نام مدرسه</label>
-            <input class="input" name="school" value="<?= e($old['school']) ?>" required minlength="2">
           </div>
         <?php else: /* counselor */ ?>
           <div class="form-group">

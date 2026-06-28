@@ -74,7 +74,7 @@ include __DIR__ . '/includes/header.php';
     <div class="dy-dash-greet">
       <div class="dy-dash-avatar"><?= e(mb_substr($user['first_name'], 0, 1)) ?></div>
       <div class="dy-dash-info">
-        <span class="dy-greeting-time"><?= e($greetingTime) ?> · <?= e(date('l j F Y')) ?></span>
+        <span class="dy-greeting-time"><?= e($greetingTime) ?> · <?= e(format_jalali_date(date('Y-m-d H:i:s'))) ?></span>
         <h2><?= e($user['first_name']) ?> عزیز، <span class="grad">دستیارت آماده‌ست</span></h2>
         <p>شما به‌عنوان <b><?= e($roleLabel) ?></b> وارد شدی؛ <?= e($roleBlurb) ?>.</p>
         <div class="dy-dash-meta">

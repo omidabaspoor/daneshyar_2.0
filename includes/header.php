@@ -197,7 +197,14 @@ $ogImage        = $ogImage ?? ($seoDomain . '/assets/img/logo.png');
     backdrop.classList.add('show');
     menu.setAttribute('aria-hidden', 'false');
     openBtn.setAttribute('aria-expanded', 'true');
+    
+    // انیمیشن نرم‌تر برای دکمه برگر
+    openBtn.style.transform = 'rotate(90deg)';
+    setTimeout(() => {
+      if (openBtn) openBtn.style.transform = '';
+    }, 300);
   }
+  
   function closeMenu(){
     document.body.classList.remove('dy-menu-open');
     menu.classList.remove('open');
@@ -205,7 +212,12 @@ $ogImage        = $ogImage ?? ($seoDomain . '/assets/img/logo.png');
     menu.setAttribute('aria-hidden', 'true');
     openBtn.setAttribute('aria-expanded', 'false');
   }
-  openBtn.addEventListener('click', function(e){ e.preventDefault(); menu.classList.contains('open') ? closeMenu() : openMenu(); });
+  
+  openBtn.addEventListener('click', function(e){ 
+    e.preventDefault(); 
+    menu.classList.contains('open') ? closeMenu() : openMenu(); 
+  });
+  
   closeBtn && closeBtn.addEventListener('click', closeMenu);
   backdrop.addEventListener('click', closeMenu);
   menu.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', closeMenu); });
